@@ -1,0 +1,45 @@
+<div class="palette-container">
+  <h1>Color Palette Generator</h1>
+
+  <div class="controls">
+    <label for="colorPicker">Base Color:</label>
+    <input id="colorPicker" type="color" [(ngModel)]="baseColor" />
+    <span>{{ baseColor }}</span>
+
+    <button (click)="generateTheme()">Generate Theme</button>
+    <button (click)="generateRandomPalette()">Generate Random Palette</button>
+  </div>
+
+  <!-- Theme output -->
+  <div class="theme-output" *ngIf="paletteService.theme() as theme">
+    <h2>Generated Theme</h2>
+    <div class="swatches">
+      <div
+        class="swatch"
+        *ngFor="let shade of theme.shades"
+        [style.background]="shade.hex"
+        (click)="copyToClipboard(shade.hex)"
+        title="Click to copy">
+        <span class="label">{{ shade.name }}</span>
+        <span class="hex">{{ shade.hex }}</span>
+      </div>
+    </div>
+    <button (click)="exportThemeCss()">Export Theme as CSS</button>
+  </div>
+
+  <!-- Random palette output -->
+  <div class="palette-output" *ngIf="paletteService.palette().length">
+    <h2>Random Palette</h2>
+    <div class="swatches">
+      <div
+        class="swatch"
+        *ngFor="let color of paletteService.palette()"
+        [style.background]="color"
+        (click)="copyToClipboard(color)"
+        title="Click to copy">
+        <span class="hex">{{ color }}</span>
+      </div>
+    </div>
+    <button (click)="exportPaletteCss()">Export Palette as CSS</button>
+  </div>
+</div>
